@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minuteman High School - Teacher Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="school-info">
+                    <h1>Minuteman High School</h1>
+                    <p class="dashboard-title">Data Processing Dashboard</p>
+                </div>
+                <div class="header-stats">
+                    <div class="header-stat">
+                        <span class="stat-value" id="overall-success-rate">80.7%</span>
+                        <span class="stat-label">Success Rate</span>
+                    </div>
+                    <div class="header-stat">
+                        <span class="stat-value" id="last-updated">Sep 28, 2025</span>
+                        <span class="stat-label">Last Updated</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard -->
+    <main class="dashboard-main">
+        <div class="container">
+            <!-- Teacher Selector Section -->
+            <section class="teacher-selector-section">
+                <div class="card">
+                    <div class="card__body">
+                        <div class="flex items-center justify-between">
+                            <div class="teacher-select-container">
+                                <label for="teacher-select" class="form-label">Select Teacher:</label>
+                                <select id="teacher-select" class="form-control teacher-select">
+                                    <option value="all">All Teachers</option>
+                                </select>
+                            </div>
+                            <div class="selected-teacher-stats" id="selected-teacher-stats">
+                                <div class="teacher-stat">
+                                    <span class="stat-value" id="teacher-assignments">1,866</span>
+                                    <span class="stat-label">Total Assignments</span>
+                                </div>
+                                <div class="teacher-stat">
+                                    <span class="stat-value" id="teacher-success-rate">80.7%</span>
+                                    <span class="stat-label">Success Rate</span>
+                                </div>
+                            </div>
+                            <button class="btn btn--primary" id="refresh-data">
+                                <span>🔄</span> Refresh Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Metrics Cards -->
+            <section class="metrics-section">
+                <div class="metrics-grid">
+                    <div class="metric-card card">
+                        <div class="card__body">
+                            <div class="metric-content">
+                                <div class="metric-icon status--success">✓</div>
+                                <div class="metric-info">
+                                    <h3 class="metric-value" id="assignment-success-rate">80.7%</h3>
+                                    <p class="metric-label">Assignment Success Rate</p>
+                                    <div class="metric-status" id="assignment-status"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card card">
+                        <div class="card__body">
+                            <div class="metric-content">
+                                <div class="metric-icon">📝</div>
+                                <div class="metric-info">
+                                    <h3 class="metric-value" id="total-assignments">1,866</h3>
+                                    <p class="metric-label">Total Assignments</p>
+                                    <p class="metric-subtitle">Processed</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card card">
+                        <div class="card__body">
+                            <div class="metric-content">
+                                <div class="metric-icon">📊</div>
+                                <div class="metric-info">
+                                    <h3 class="metric-value" id="total-submissions">8,442</h3>
+                                    <p class="metric-label">Total Submissions</p>
+                                    <p class="metric-subtitle">86.1% Success Rate</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card card">
+                        <div class="card__body">
+                            <div class="metric-content">
+                                <div class="metric-icon">📅</div>
+                                <div class="metric-info">
+                                    <h3 class="metric-value" id="recent-activity">Sep 26</h3>
+                                    <p class="metric-label">Most Recent Activity</p>
+                                    <p class="metric-subtitle">2025</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-section">
+                <div class="charts-grid">
+                    <!-- Daily Trends Chart -->
+                    <div class="chart-container-wrapper card">
+                        <div class="card__header">
+                            <h3>Daily Processing Trends</h3>
+                            <div class="time-period-selector">
+                                <button class="btn btn--sm btn--outline period-btn active" data-period="7">7 Days</button>
+                                <button class="btn btn--sm btn--outline period-btn" data-period="30">30 Days</button>
+                                <button class="btn btn--sm btn--outline period-btn" data-period="all">All Time</button>
+                            </div>
+                        </div>
+                        <div class="card__body">
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="daily-trends-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Teacher Performance Chart -->
+                    <div class="chart-container-wrapper card">
+                        <div class="card__header">
+                            <h3>Teacher Performance Comparison</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="teacher-performance-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Assignment Status Breakdown -->
+                    <div class="chart-container-wrapper card">
+                        <div class="card__header">
+                            <h3>Assignment Status Breakdown</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="status-breakdown-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tables and Analysis Section -->
+            <section class="tables-section">
+                <div class="tables-grid">
+                    <!-- Problem Assignments Table -->
+                    <div class="table-container card">
+                        <div class="card__header">
+                            <h3>Problem Assignments</h3>
+                            <button class="btn btn--sm btn--outline" id="export-problems">Export</button>
+                        </div>
+                        <div class="card__body">
+                            <div class="table-wrapper">
+                                <table class="data-table" id="problem-assignments-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Assignment</th>
+                                            <th>Teacher</th>
+                                            <th>Success</th>
+                                            <th>Errors</th>
+                                            <th>Error Type</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Error Analysis Panel -->
+                    <div class="error-analysis-panel card">
+                        <div class="card__header">
+                            <h3>Error Analysis</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="error-types-list" id="error-types-list">
+                            </div>
+                            <div class="error-recommendations">
+                                <h4>Recommendations:</h4>
+                                <ul id="error-recommendations">
+                                    <li>Contact IT support to configure default GradeScale settings</li>
+                                    <li>Check for duplicate assignment names in your classes</li>
+                                    <li>Verify GradebookColumn configurations are complete</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Activity Table -->
+            <section class="recent-activity-section">
+                <div class="card">
+                    <div class="card__header">
+                        <h3>Recent Activity</h3>
+                        <button class="btn btn--sm btn--outline" id="export-activity">Export</button>
+                    </div>
+                    <div class="card__body">
+                        <div class="table-wrapper">
+                            <table class="data-table" id="recent-activity-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Assignment Successes</th>
+                                        <th>Assignment Errors</th>
+                                        <th>Submission Successes</th>
+                                        <th>Submission Errors</th>
+                                        <th>Success Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden" id="loading-overlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Refreshing data...</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
